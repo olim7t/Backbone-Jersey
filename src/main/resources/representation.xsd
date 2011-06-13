@@ -1,0 +1,57 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:complexType name="link">
+		<xs:all>
+			<xs:element name="href" use="required" type="xs:anyURI" />
+			<xs:element name="rel" use="optional" type="rels" />
+			<xs:element name="type" use="optional" type="xs:string" />
+		</xs:all>
+	</xs:complexType>
+
+	<xs:simpleType name="rels">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="rels/book" />
+			<xs:enumeration value="rels/price" />
+			<xs:enumeration value="rels/payment" />
+			<xs:enumeration value="rels/related" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:element name="product">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="id" type="xs:long" />
+				<xs:element name="name" type="xs:string" />
+				<xs:element name="price" type="xs:int" />
+				<xs:element name="links" type="link" maxOccurs="unbounded" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="stock">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="quantity" type="xs:int" />
+				<xs:element name="id" type="xs:long" />
+				<xs:element name="related" type="link" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="price">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="value" type="xs:int" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:element name="basket">
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="stock" maxOccurs="unbounded" />
+				<xs:element name="links" type="link" maxOccurs="unbounded" />
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
