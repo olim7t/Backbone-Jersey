@@ -1,7 +1,8 @@
 Backbone+Jersey
 ===============
 
-Integration between a Java server-side using Jersey and a JavaScript client-side using Backbone.
+Integration between a Java server-side using Jersey and a JavaScript client-side using Backbone. 
+Launch `com.xebia.server.EmbeddedServer.main` and open a browser at `http://localhost:8080`
 
 Resources
 ---------
