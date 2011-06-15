@@ -8,12 +8,9 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -29,7 +26,6 @@ import com.xebia.representation.Rels;
 import com.xebia.representation.Stock;
 
 @Path("/product")
-@Produces(MediaType.APPLICATION_JSON)
 public class ProductResource {
 
 	@GET
@@ -44,7 +40,7 @@ public class ProductResource {
 
 	@GET
 	@Path("/{id}")
-	public Response get(@PathParam("id") long id, @QueryParam("hey") long hey) {
+	public Response get(@PathParam("id") long id) {
 		Product product = Products.get(id);
 		addBookLink(product);
 		return Response.ok(product).build();
