@@ -21,9 +21,9 @@
 		<xs:complexType>
 			<xs:all>
 				<xs:element name="id" type="xs:long" />
-				<xs:element name="name" type="xs:string" />
+				<xs:element name="name" type="xs:string" minOccurs="0" />
 				<xs:element name="price" type="xs:int" />
-				<xs:element name="links" type="link" maxOccurs="unbounded" />
+				<xs:element name="links" type="link" minOccurs="0" maxOccurs="unbounded" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>
