@@ -8,6 +8,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
@@ -20,6 +22,7 @@ import com.xebia.representation.Rels;
 import com.xebia.representation.Stock;
 
 @Path("/basket/{username}")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class BasketResource {
 
 	static UriBuilder linkProductBuilder = UriBuilder.fromPath("resource/product").path("/{id}");

@@ -1,13 +1,13 @@
 <form method="post" onsubmit="return false" class="product"> 
 	<fieldset> 
 		<ul> 
-			<li><strong>{{ product.get('name') }}</strong></li> 
-			<li>Price: ${{ product.get('price') }}</li> 
+			<li><strong><%= product.get('name') %></strong></li> 
+			<li>Price: $<%= product.get('price') %></li> 
 			<li> 
-				<label>Qty: <input type="text" id="{{ product.get('id') }}" value="1" size="3" class="product-qty"/></label> 
+				<label>Qty: <input type="text" id="<%= product.get('id') %>" value="1" size="3" class="product-qty"/></label> 
 			</li> 
 		</ul> 
 
-		<input type="submit" id="{{ product.get('id') }}" value="add to cart" class="button" /> 
+		<input type="submit" id="<%= product.get('id') %>" value="add to cart" class="button" /> 
 	</fieldset> 
 </form> 

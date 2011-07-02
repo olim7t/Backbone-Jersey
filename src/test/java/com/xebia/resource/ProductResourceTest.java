@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
 import org.junit.After;
@@ -43,7 +42,7 @@ public class ProductResourceTest {
 
 	@Before
 	public void before() {
-		for (Product product : Shipment.products()) {
+		for (Product product : Shipments.products()) {
 			product = productResource().entity(product).post(Product.class);
 			Stock stock = new Stock();
 			stock.setQuantity(2);
@@ -67,15 +66,15 @@ public class ProductResourceTest {
 	@Test
 	public void shouldListProducts() {
 		List<Product> products = getProducts();
-		assertEquals(7, products.size());
+		assertEquals(Shipments.size(), products.size());
 		for (Product product : products)
-			assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity(), 0);
+			assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity());
 	}
 
 	@Test
 	public void shouldAccessStock() {
 		for (Product product : getProducts())
-			assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity(), 0);
+			assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity());
 	}
 
 	@Test
@@ -84,7 +83,7 @@ public class ProductResourceTest {
 		int quantity = 2;
 
 		Product product = getProducts(0);
-		assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity(), 0);
+		assertEquals(2, stockResource(product.getId()).get(Stock.class).getQuantity());
 
 		String uriBook = rels(product.getLinks()).get(Rels.RELS_BOOK);
 		resource(uriBook, ImmutableMap.of("quantity", quantity, "username", username)).post();
@@ -251,9 +250,7 @@ public class ProductResourceTest {
 	}
 
 	public List<Product> getProducts() {
-		WebResource resource = createClient().resource(server.uri());
-		ClientResponse clientResponse = resource.path("resource/product").type(MediaType.APPLICATION_JSON)
-				.get(ClientResponse.class);
+		ClientResponse clientResponse = productResource().get(ClientResponse.class);
 		return clientResponse.getEntity(new GenericType<List<Product>>() {});
 	}
 

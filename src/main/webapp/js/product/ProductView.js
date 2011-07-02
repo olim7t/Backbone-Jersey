@@ -1,4 +1,4 @@
-define(['text!/template/ProductTemplate.html'], function(Template){
+define(['text!/template/ProductTemplate.html'], function(tmpl){
 	return Backbone.View.extend({
 		initialize: function(){
 			_.bindAll(this, 'render');
@@ -7,27 +7,26 @@ define(['text!/template/ProductTemplate.html'], function(Template){
 		},
 		el: $("#product-list"),
 		render: function() {
-			_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
-			
-			var tmpl = '';
+			var template = '';
 			this.collection.each(function(product) {
-				tmpl += _.template(Template, { product: product });
+				template += _.template(tmpl, { product: product });
 			});
-			this.el.html(tmpl);
+			this.el.html(template);
 			$('input:submit', this.el).button();
 		},
 		events: {
 			"click input:submit": "book"
 		},
 		book: function(event) {
-			_.templateSettings = { interpolate : /\{(.+?)\}/g };
 			var links = this.collection.get(event.target.id).get('links');
+			var quantity = $('input:text#'+event.target.id).attr('value');
 			
-			var map = new Object();
+			var map = {};
 			_.each(links, function(link) {
 				map[link.rel] = link.href;
 			});
-			var quantity = $('input:text#'+event.target.id)[0].value;
+
+			this.template(true);
 			var tmpl = _.template(map['RELS_BOOK'], { quantity: quantity, username: "xebia" });
 			$.ajax({
 					type: 'POST',
@@ -35,6 +34,15 @@ define(['text!/template/ProductTemplate.html'], function(Template){
 					success: function() {$.publish('basket-event')},
 					error: function(xhr) { alert(xhr.responseText) }
 			});
+			this.template(false);
+		},
+		template: function(custom) {
+			var template;
+			if(custom)
+				template = /\{(.+?)\}/g;
+			else
+				template = /<%=([\s\S]+?)%>/g;
+			_.templateSettings = { interpolate:  template};
 		}
 	});
 });

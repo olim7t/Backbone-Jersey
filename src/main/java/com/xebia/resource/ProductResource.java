@@ -8,9 +8,11 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.GenericEntity;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -26,6 +28,7 @@ import com.xebia.representation.Rels;
 import com.xebia.representation.Stock;
 
 @Path("/product")
+@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 public class ProductResource {
 
 	@GET
@@ -86,13 +89,15 @@ public class ProductResource {
 	@POST
 	@Path("/{id}/stock")
 	public Response addToStock(@PathParam("id") long id, Stock stock) {
+		Status status;
 		Integer instock = Stocks.quantity(id);
 		if (instock != null) {
 			Stocks.put(id, instock + stock.getQuantity());
-			return Response.status(Status.CREATED).build();
+			status = Status.ACCEPTED;
 		} else {
-			return Response.status(Status.NOT_FOUND).build();
+			status = Status.NOT_FOUND;
 		}
+		return Response.status(status).build();
 	}
 
 	@POST
@@ -104,11 +109,11 @@ public class ProductResource {
 		
 		int productQuantity = Stocks.quantity(id);
 		if (request.evaluatePreconditions(eTag(id, productQuantity)) == null) {
-			if (Stocks.sell(id, quantity)) {
+			if (Stocks.sell(id, quantity)) {	
 				Purchases.put(username, id, quantity);
 				return Response.ok().build();
 			} else message = Products.get(id).getName()+" is out of stock";
-		} else message = "eTag dismatch";
+		} else message = "eTag mismatch";
 		return Response.status(Status.PRECONDITION_FAILED).entity(message).build();
 	}
 }

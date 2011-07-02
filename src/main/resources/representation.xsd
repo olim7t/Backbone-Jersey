@@ -33,7 +33,7 @@
 			<xs:all>
 				<xs:element name="quantity" type="xs:int" />
 				<xs:element name="id" type="xs:long" />
-				<xs:element name="related" type="link" />
+				<xs:element name="related" type="link" minOccurs="0" />
 			</xs:all>
 		</xs:complexType>
 	</xs:element>

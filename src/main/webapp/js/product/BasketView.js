@@ -25,8 +25,6 @@ define(['text!/template/BasketTemplate.html',
 		},
 		render: function() {
 			var stocks = this.model.get('stock');
-			_.templateSettings = { interpolate : /\{\{(.+?)\}\}/g };
-
 			var view = this;
 			var tmpl = '';
 			var total = 0;
@@ -43,7 +41,7 @@ define(['text!/template/BasketTemplate.html',
 		},
 		checkout: function() {
 			var links = this.model.get('links');
-			var map = new Object();
+			var map = {};
 			_.each(links, function(link) {
 				map[link.rel] = link.href;
 			});

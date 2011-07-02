@@ -1,7 +1,7 @@
 define(['text!/template/ProductCreationTemplate.html', 'product/StockModel'], function(tmpl, StockModel){
 	return Backbone.View.extend({
 		initialize: function(){
-			this.el.html(_.template(tmpl));
+			this.el.html(tmpl);
 			$('input:submit', this.el).button();
 		},
 		el: $("#product-creation"),
