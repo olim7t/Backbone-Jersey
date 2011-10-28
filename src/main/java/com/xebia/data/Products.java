@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.sun.jersey.api.NotFoundException;
 import com.xebia.representation.Product;
 
 public class Products {
@@ -20,6 +21,9 @@ public class Products {
 	
 	public static Product get(long id) {
 		Product product = products.get(id);
+		if (product == null)
+			throw new NotFoundException();
+		
 		product.getLinks().clear();
 		return product;
 	}
@@ -33,5 +37,6 @@ public class Products {
 
 	public static void delete(long id) {
 		products.remove(id);
+		productCount--;
 	}
 }

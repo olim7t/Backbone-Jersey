@@ -1,5 +1,6 @@
 package com.xebia.resource;
 
+import static com.sun.jersey.api.client.ClientResponse.Status.NOT_FOUND;
 import static org.junit.Assert.*;
 
 import java.net.URI;
@@ -63,6 +64,12 @@ public class ProductResourceTest {
 		assertNotNull(productResource(2).get(Product.class));
 	}
 
+	@Test
+	public void shouldNotGetUnexistingProduct() {
+		ClientResponse response = productResource(12).get(ClientResponse.class);
+		assertEquals(response.getStatus(), NOT_FOUND.getStatusCode());
+	}
+	
 	@Test
 	public void shouldListProducts() {
 		List<Product> products = getProducts();
