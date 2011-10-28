@@ -61,7 +61,9 @@ public class ProductResourceTest {
 
 	@Test
 	public void shouldGetProduct() {
-		assertNotNull(productResource(2).get(Product.class));
+		Product product = productResource(2).get(Product.class);
+		assertNotNull(product);
+		assertEquals(product.getName(), "L'étranger");
 	}
 
 	@Test
