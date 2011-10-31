@@ -20,11 +20,16 @@ public class Products {
 	}
 	
 	public static Product get(long id) {
+		Product product = exists(id);
+		product.getLinks().clear();
+		return product;
+	}
+
+	static Product exists(long id) {
 		Product product = products.get(id);
 		if (product == null)
 			throw new NotFoundException();
 		
-		product.getLinks().clear();
 		return product;
 	}
 	

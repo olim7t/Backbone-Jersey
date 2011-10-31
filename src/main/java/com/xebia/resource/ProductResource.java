@@ -89,15 +89,10 @@ public class ProductResource {
 	@POST
 	@Path("/{id}/stock")
 	public Response addToStock(@PathParam("id") long id, Stock stock) {
-		Status status;
 		Integer instock = Stocks.quantity(id);
-		if (instock != null) {
-			Stocks.put(id, instock + stock.getQuantity());
-			status = Status.ACCEPTED;
-		} else {
-			status = Status.NOT_FOUND;
-		}
-		return Response.status(status).build();
+		Stocks.put(id, instock + stock.getQuantity());
+
+		return Response.status(Status.ACCEPTED).build();
 	}
 
 	@POST

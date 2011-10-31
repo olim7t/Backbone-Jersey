@@ -9,6 +9,8 @@ public class Stocks {
 	static Map<Long, Integer> stocks = Maps.newHashMap();
 
 	public static int quantity(long productId) {
+		Products.exists(productId);
+	
 		Integer quantity = stocks.get(productId);
 		return quantity == null ? 0 : quantity;
 	}
