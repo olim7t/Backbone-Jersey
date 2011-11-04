@@ -26,23 +26,13 @@ define(['text!/template/ProductTemplate.html'], function(tmpl){
 				map[link.rel] = link.href;
 			});
 
-			this.template(true);
-			var tmpl = _.template(map['RELS_BOOK'], { quantity: quantity, username: "xebia" });
+			var tmpl = map['RELS_BOOK'].replace('{quantity}', quantity).replace('{username}', "xebia");
 			$.ajax({
 					type: 'POST',
 					url: tmpl,
 					success: function() {$.publish('basket-event')},
 					error: function(xhr) { alert(xhr.responseText) }
 			});
-			this.template(false);
-		},
-		template: function(custom) {
-			var template;
-			if(custom)
-				template = /\{(.+?)\}/g;
-			else
-				template = /<%=([\s\S]+?)%>/g;
-			_.templateSettings = { interpolate:  template};
 		}
 	});
 });
