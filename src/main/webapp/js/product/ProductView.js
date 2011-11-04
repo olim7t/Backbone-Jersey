@@ -18,18 +18,19 @@ define(['text!/template/ProductTemplate.html'], function(tmpl){
 			"click input:submit": "book"
 		},
 		book: function(event) {
-			var links = this.collection.get(event.target.id).get('links');
-			var quantity = $('input:text#'+event.target.id).attr('value');
+			var product_id = $(event.target).data('id');
+			var quantity = $('input[type=text][data-id="'+product_id+'"]').val();
+			
+			var links = this.collection.get(product_id).get('links');
 			
 			var map = {};
 			_.each(links, function(link) {
 				map[link.rel] = link.href;
 			});
 
-			var tmpl = map['RELS_BOOK'].replace('{quantity}', quantity).replace('{username}', "xebia");
 			$.ajax({
 					type: 'POST',
-					url: tmpl,
+					url: map['RELS_BOOK'].replace('{quantity}', quantity).replace('{username}', "xebia"),
 					success: function() {$.publish('basket-event')},
 					error: function(xhr) { alert(xhr.responseText) }
 			});
