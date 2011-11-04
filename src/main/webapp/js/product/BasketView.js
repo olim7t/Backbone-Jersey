@@ -23,19 +23,23 @@ define(['text!/template/BasketTemplate.html',
 			this.model.clear();
 			this.model.fetch({ success: view.render });
 		},
+		price: 0,
 		render: function() {
 			var stocks = this.model.get('stock');
 			var view = this;
 			var tmpl = '';
 			var total = 0;
-
+			
 			_.each(stocks, function(stock) {
 				var product = view.collection.get(stock.id);
 				var price = stock.quantity * product.get('price');
 				total += price;
 				tmpl += _.template(BasketItemTemplate, { quantity: stock.quantity, name: product.get('name'), price: price });
 			});
+			
 			this.el.html(_.template(BasketTemplate, { total: total }));
+			this.price = total;
+			
 			$('tbody', this.el).html(tmpl);
 			$('input:submit', this.el).button();
 		},
@@ -45,8 +49,11 @@ define(['text!/template/BasketTemplate.html',
 			_.each(links, function(link) {
 				map[link.rel] = link.href;
 			});
-			$.get(map['RELS_PRICE'], function(response) { 
-				$.post(map['RELS_PAYMENT'], function() { $.publish('basket-event') });
+			
+			var total = this.price; 
+			$.getJSON(map['RELS_PRICE'], function(response) {
+				if(response.value == total)
+					$.post(map['RELS_PAYMENT'], function() { $.publish('basket-event') });
 			});
 		}
 	});
