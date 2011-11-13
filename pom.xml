@@ -46,4 +46,16 @@
 			<version>6.1.26</version>
 		</dependency>
 	</dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <configuration>
+          <mainClass>com.xebia.server.EmbeddedServer</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
